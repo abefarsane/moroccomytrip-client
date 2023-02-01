@@ -17,7 +17,7 @@ export default function Incoming() {
 
 
     const getMessages = () => {
-        axios.get(`http://localhost:3001/chat/byUserId/${authState.id}`)
+        axios.get(`https://morocco-my-trip-api.herokuapp.com/chat/byUserId/${authState.id}`)
             .then((response) => {
                 if (response.data.error) {
 
@@ -37,7 +37,7 @@ export default function Incoming() {
             hasBeenRead: true
         }
 
-        axios.put(`http://localhost:3001/messages/update/${id}`, body, {
+        axios.put(`https://morocco-my-trip-api.herokuapp.com/messages/update/${id}`, body, {
             headers: { token: localStorage.getItem('token')}
         })
             .then((response) => {
@@ -53,7 +53,7 @@ export default function Incoming() {
 
 
     useEffect(() => {
-        axios.get(`http://localhost:3001/chat/byUserId/${authState.id}`)
+        axios.get(`https://morocco-my-trip-api.herokuapp.com/chat/byUserId/${authState.id}`)
             .then((response) => {
                 if (response.data.error) {
 

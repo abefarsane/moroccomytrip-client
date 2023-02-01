@@ -88,7 +88,7 @@ export default function Signup() {
                 username: username,
                 pwd: pwd
             }
-            axios.post("http://localhost:3001/auth/signup", user).then((response) => {
+            axios.post("https://morocco-my-trip-api.herokuapp.com/auth/signup", user).then((response) => {
                 if(response.data.status) {
                     navigate('/login');
                 } 

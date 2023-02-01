@@ -20,7 +20,7 @@ export default function Package() {
     const { authState } = useContext(AuthContext)
 
     const getPackageDetails = () => {
-        axios.get(`http://localhost:3001/packages/byID/${id}`)
+        axios.get(`https://morocco-my-trip-api.herokuapp.com/packages/byID/${id}`)
             .then((response) => {
                 if (response.data.error) {
                     setPack(null)
@@ -33,7 +33,7 @@ export default function Package() {
 
     const checkIfAlreadyBooked = () => {
 
-        axios.get(`http://localhost:3001/chat/check-if-already-sent/${id}/${authState.id}`)
+        axios.get(`https://morocco-my-trip-api.herokuapp.com/chat/check-if-already-sent/${id}/${authState.id}`)
             .then((response) => {
                 if (response.data.status) {
                     setBooked(true)

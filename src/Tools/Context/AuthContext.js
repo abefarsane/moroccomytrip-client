@@ -26,7 +26,7 @@ export const AuthContextProvider = ({children}) => {
         checkAuth()
 
         if (authState.status) {
-            axios.put("http://localhost:3001/auth/update", user, {
+            axios.put("https://morocco-my-trip-api.herokuapp.com/auth/update", user, {
                 headers: { token: localStorage.getItem("token") }
             })
             .then((response) => {
@@ -50,7 +50,7 @@ export const AuthContextProvider = ({children}) => {
 
 
     const checkAuth = () => {
-        axios.get('http://localhost:3001/auth/check', {
+        axios.get('https://morocco-my-trip-api.herokuapp.com/auth/check', {
             headers: {
                 token: localStorage.getItem("token")
             }
@@ -75,7 +75,7 @@ export const AuthContextProvider = ({children}) => {
     
     useEffect(() => {
         checkAuth()
-        axios.get('http://localhost:3001/auth/check', {
+        axios.get('https://morocco-my-trip-api.herokuapp.com/auth/check', {
             headers: {
                 token: localStorage.getItem("token")
             }

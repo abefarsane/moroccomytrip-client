@@ -31,7 +31,7 @@ export default function ChatPage() {
 
     const getData = async () => {
 
-        await axios.get(`http://localhost:3001/chat/chatHistory/${chatId}`)
+        await axios.get(`https://morocco-my-trip-api.herokuapp.com/chat/chatHistory/${chatId}`)
             .then((response) => {
                 if (response.data.error) { 
 
@@ -44,7 +44,7 @@ export default function ChatPage() {
     }
 
     const getPackageImage = async () => {
-        await axios.get(`http://localhost:3001/packages/package-image/${chatHistory.Package.id}`)
+        await axios.get(`https://morocco-my-trip-api.herokuapp.com/packages/package-image/${chatHistory.Package.id}`)
             .then((response) => {
                 setUrl(response.data)
             })
@@ -63,7 +63,7 @@ export default function ChatPage() {
             }
             await socket.emit('send_text', bodyData)
 
-            axios.post(`http://localhost:3001/chat/send-text/${chatHistory.id}`, {
+            axios.post(`https://morocco-my-trip-api.herokuapp.com/chat/send-text/${chatHistory.id}`, {
                 sender: authState.id,
                 text_body: textToSend
             }).then((response) => {

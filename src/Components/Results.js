@@ -20,7 +20,7 @@ export default function Results() {
 
     const getResults = () => {
 
-        axios.get('http://localhost:3001/packages/all')
+        axios.get('https://morocco-my-trip-api.herokuapp.com/packages/all')
             .then((response) => {
                 if (response.data.status) {
                     response.data.packages.map(x => {

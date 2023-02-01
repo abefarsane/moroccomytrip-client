@@ -84,7 +84,7 @@ export default function EditUser() {
         }
 
         if(pwd && matchPwd && validMatch && oldPwd) {
-            axios.put("http://localhost:3001/auth/update", user, {
+            axios.put("https://morocco-my-trip-api.herokuapp.com/auth/update", user, {
                 headers: { token: localStorage.getItem('token')}
             })
             .then((response) => {

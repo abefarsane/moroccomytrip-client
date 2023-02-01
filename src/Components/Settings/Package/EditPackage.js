@@ -48,7 +48,7 @@ export default function EditPackage() {
 
 
     const getPackageImage = (id) => {
-        axios.get(`http://localhost:3001/packages/package-image/${id}`)
+        axios.get(`https://morocco-my-trip-api.herokuapp.com/packages/package-image/${id}`)
             .then((response) => {
                 setImageUrl(response.data)
             })
@@ -69,10 +69,10 @@ export default function EditPackage() {
     function handleDeleteService(id) {
         console.log('pup')
 
-        axios.delete(`http://localhost:3001/services/${id}`)
+        axios.delete(`https://morocco-my-trip-api.herokuapp.com/services/${id}`)
             .then((response) => {
                 if(response.data.status) {
-                    axios.get(`http://localhost:3001/services/pack-services/${packId}`)
+                    axios.get(`https://morocco-my-trip-api.herokuapp.com/services/pack-services/${packId}`)
                         .then((response) => {
                             const services = response.data.services
                             let included = setServices(services, true)
@@ -203,7 +203,7 @@ export default function EditPackage() {
     }, [])
 
     const updatePage = () => {
-        axios.get('http://localhost:3001/packages/all')
+        axios.get('https://morocco-my-trip-api.herokuapp.com/packages/all')
         .then((response) => {
                 if (response.data.status) {
                     setResponseJSON(response.data.packages)
@@ -263,7 +263,7 @@ export default function EditPackage() {
 
             //handleImgUploadRequest()
 
-            axios.post('http://localhost:3001/packages/new', newPackage, {
+            axios.post('https://morocco-my-trip-api.herokuapp.com/packages/new', newPackage, {
                 headers: { token: localStorage.getItem('token')}
             })
             .then((response) => {
@@ -306,7 +306,7 @@ export default function EditPackage() {
 
               
             setErrMsg('')
-            axios.post(`http://localhost:3001/packages/update/${packId}`, updatedPackage, {
+            axios.post(`https://morocco-my-trip-api.herokuapp.com/packages/update/${packId}`, updatedPackage, {
                 headers: { token: localStorage.getItem('token')}
             })
             .then((response) => {
@@ -336,7 +336,7 @@ export default function EditPackage() {
                 PackageId: packDetails.package.id,
                 included: type
             }
-            axios.post('http://localhost:3001/services/addToPackage', service)
+            axios.post('https://morocco-my-trip-api.herokuapp.com/services/addToPackage', service)
                 .then((response) => {
                     if (response.data.status) {
                         console.log('Added!')
@@ -370,7 +370,7 @@ export default function EditPackage() {
         
     }
     const getPackageServices = (pack) => {
-        axios.get(`http://localhost:3001/services/pack-services/${pack.id}`)
+        axios.get(`https://morocco-my-trip-api.herokuapp.com/services/pack-services/${pack.id}`)
             .then((response) => {
                 const services = response.data.services
                 included = setServices(services, true)
@@ -386,7 +386,7 @@ export default function EditPackage() {
             })
     }
     const handlePackageDelete = () => {
-        axios.delete(`http://localhost:3001/packages/${packId}`)
+        axios.delete(`https://morocco-my-trip-api.herokuapp.com/packages/${packId}`)
             .then(() => {
                 setShowEdit(false)
                 updatePage()
@@ -397,7 +397,7 @@ export default function EditPackage() {
 
         formData.append('file', image.data)
 
-        await axios.post('http://localhost:3001/packages/upload/package-img', formData)
+        await axios.post('https://morocco-my-trip-api.herokuapp.com/packages/upload/package-img', formData)
             .then((response) => {
                 console.log(response.data)
                 //setStatus(response.data.statusText)

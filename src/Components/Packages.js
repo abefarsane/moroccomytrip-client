@@ -11,10 +11,10 @@ export default function Packages() {
     const [ urls, setUrls] = useState([])
     const [path, setPath] = useState("")
 
-    const defaultImg = "http://localhost:3001/public/on-missing-image.jpg"
+    const defaultImg = "https://morocco-my-trip-api.herokuapp.com/public/on-missing-image.jpg"
 
     const getPackages = () => {
-        axios.get('http://localhost:3001/packages/all')
+        axios.get('https://morocco-my-trip-api.herokuapp.com/packages/all')
             .then((response) => {
                 if(response.data.status) {
                     setAllPackages(response.data.packages)

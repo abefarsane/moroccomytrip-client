@@ -30,7 +30,7 @@ export default function RequestForm({ packageId } ) {
                 sender: authState.id
             }
             
-            axios.post('http://localhost:3001/messages/new', body, {
+            axios.post('https://morocco-my-trip-api.herokuapp.com/messages/new', body, {
                 headers: { token: localStorage.getItem('token')}
             }).then((response) => {
                 if (response.data.error) {
