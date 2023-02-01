@@ -1,0 +1,11 @@
+
+
+.search-bar form {
+    display: grid;
+    grid-template-columns: 1fr 20%;
+    column-gap: 2vw;
+}
+
+.search-bar button {
+    
+}
