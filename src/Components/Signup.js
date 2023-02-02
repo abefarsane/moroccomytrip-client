@@ -89,7 +89,7 @@ export default function Signup() {
                 pwd: pwd
             }
             await axios.post("https://morocco-my-trip-api.herokuapp.com/auth/signup", {
-                headers: { 'Content-Type' : 'text/json'}  
+                headers: { 'Content-Type' : 'application/json'}  
             }, user ).then((response) => {
                 if(response.data.status) {
                     navigate('/login');
