@@ -72,7 +72,7 @@ export default function Signup() {
 
     //onsubmit stuff that happens
 
-    const handleSubmit = async (e) => {
+    const handleSubmit = (e) => {
 
         const password = PWD_REGEX.test(pwd)
 
@@ -88,8 +88,8 @@ export default function Signup() {
                 username: username,
                 pwd: pwd
             }
-            await axios.post("https://morocco-my-trip-api.herokuapp.com/auth/signup", {
-                headers: { 'Content-Type' : 'application/json'}  
+            axios.post("https://morocco-my-trip-api.herokuapp.com/auth/signup", {
+                headers: { 'Content-Type' : 'text/json'}  
             }, user ).then((response) => {
                 if(response.data.status) {
                     navigate('/login');
