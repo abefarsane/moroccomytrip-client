@@ -12,7 +12,7 @@ export default function Signup() {
     const [usernameFocus, setUsernameFocus] = useState(false)
     const [validUsername, setValidUsername] = useState(false)
 
-
+    axios.defaults.withCredentials = true
 
     const [email, setEmail] = useState('')
 
