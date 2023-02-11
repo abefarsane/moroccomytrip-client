@@ -11,10 +11,10 @@ export default function Packages() {
     const [ urls, setUrls] = useState([])
     const [path, setPath] = useState("")
 
-    const defaultImg = "https://morocco-my-trip-api.herokuapp.com/public/on-missing-image.jpg"
+    const defaultImg = "http://localhost:3001/public/on-missing-image.jpg"
 
     const getPackages = () => {
-        axios.get('https://morocco-my-trip-api.herokuapp.com/packages/all')
+        axios.get('http://localhost:3001/packages/all')
             .then((response) => {
                 if(response.data.status) {
                     setAllPackages(response.data.packages)
@@ -31,7 +31,7 @@ export default function Packages() {
     
     return (
         <div className='our-packages'>
-            <h1>Our packages</h1>
+            <h1 className='h1-header'>Our<br/>packages</h1>
             <SearchBar />
             <section className='our-packages-results'>
             {
@@ -39,10 +39,6 @@ export default function Packages() {
                 allPackages.length > 0 ? (
                     
                     allPackages.map((x, key) => {
-
-                        
-                        //setPath(urls[key])
-                        
                         
                         return (
 
@@ -57,11 +53,17 @@ export default function Packages() {
                                     }
                                     
                                 </section>
-                                <section className='pack-details'>
-                                    <h4>{x.title}</h4>
-                                    <h5>{x.duration} {x.duration > 1 ? "DAYS" : "DAY"}</h5>
-                                </section>
-                                
+                                <section className='pack-data'>
+                                    <section className='pack-details-cl1'>
+                                        <h4>{x.title}</h4>
+                                        <h5>{x.duration} {x.duration > 1 ? "DAYS" : "DAY"}</h5>
+                                    </section>
+                                    
+                                    <section className='pack-details-cl2'>
+                                        <h4>€{x.price}</h4>
+                                        <h5>{x.people + (x.people > 1 ? " PEOPLE " : " PERSON ")}</h5>
+                                    </section>
+                                </section>            
                             </section>
                         )
                     })

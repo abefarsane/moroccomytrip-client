@@ -20,7 +20,7 @@ export default function Results() {
 
     const getResults = () => {
 
-        axios.get('https://morocco-my-trip-api.herokuapp.com/packages/all')
+        axios.get('http://localhost:3001/packages/all')
             .then((response) => {
                 if (response.data.status) {
                     response.data.packages.map(x => {
@@ -44,7 +44,7 @@ export default function Results() {
 
     return (
         <div className='results-page'>
-            <h1>Here's your results</h1>
+            <h1 className='h1-header'>Here's your results</h1>
             <SearchBar />
             <section className='our-packages-results'>
             {
@@ -54,28 +54,38 @@ export default function Results() {
                     results.map((x, key) => {
 
                         
+                        //setPath(urls[key])
+                        
                         
                         return (
 
-                            <section className='single-package section-style animate__animated animate__fadeIn' key={key} onClick={() => {
+                            <section className='single-package animate__animated animate__fadeIn section-style' key={key} onClick={() => {
                                 navigate(`/package/${x.id}`)
                             }}>
                                 <section className='pack-img'>
                                     {
-                                        <img src={x.Images[0].urlPath} />
+                                        <img
+                                            src={x.Images[0].urlPath}
+                                        />          
                                     }
                                     
                                 </section>
-                                <section className='pack-details'>
-                                    <h4>{x.title}</h4>
-                                    <h5>{x.duration} {x.duration > 1 ? "DAYS" : "DAY"}</h5>
-                                </section>
-                                
+                                <section className='pack-data'>
+                                    <section className='pack-details-cl1'>
+                                        <h4>{x.title}</h4>
+                                        <h5>{x.duration} {x.duration > 1 ? "DAYS" : "DAY"}</h5>
+                                    </section>
+                                    
+                                    <section className='pack-details-cl2'>
+                                        <h4>€{x.price}</h4>
+                                        <h5>{x.people + (x.people > 1 ? " PEOPLE " : " PERSON ")}</h5>
+                                    </section>
+                                </section>            
                             </section>
                         )
                     })
                 ) : (
-                    <h5>No packages available :(</h5>
+                    <h5 className='h5-response'>No packages available :(</h5>
                 )
             }
             </section>

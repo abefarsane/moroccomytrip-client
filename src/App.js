@@ -10,10 +10,11 @@ import Packages from './Components/Packages'
 import Signup from './Components/Signup';
 import NoMatchedPath from './Tools/Routes/NoMatchedPath';
 import ChatPage from './Components/Settings/Communication/View/ChatPage';
-
+import About from './Components/About';
 import { Routes, Route } from 'react-router-dom';
 import './Tools/sComponents/SmallComponents.css'
 import './Components/ComponentsStyle.css'
+import './Responsive.css'
 
 
 import ReactDOM from "react-dom/client";
@@ -23,6 +24,7 @@ import {
 } from "react-router-dom";
 import Results from './Components/Results';
 import { Container } from 'react-bootstrap';
+import Messages from './Components/Settings/Communication/Messages';
 
 
 function App() {
@@ -30,6 +32,8 @@ function App() {
   return (
     <div className="App">
       <NavBar />
+
+      <div className='containing'>
 
       <Routes>
         <Route path='/' element={<Home />} />
@@ -44,6 +48,7 @@ function App() {
         <Route path='/results/:search' element={<Results />} />
         <Route path='/package/:id' element={<Package />} />
 
+        <Route path='/about' element={<About />} />
         <Route path='/chat/:chatId' element={<ChatPage />} />
 
         <Route path='/*' element={<NoMatchedPath />} />
@@ -51,7 +56,7 @@ function App() {
 
       
 
-      
+      </div>
     </div>
   );
 }

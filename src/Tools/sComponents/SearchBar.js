@@ -10,8 +10,13 @@ export default function SearchBar() {
 
     const navigate = useNavigate()
 
-    const handleSubmit = () => {
-        navigate(`/results/${search}`)
+    const handleSubmit = (e) => {
+        e.preventDefault()
+        if (search == "") {
+
+        } else {
+            navigate(`/results/${search}`)
+        }
     }
 
 
@@ -26,7 +31,7 @@ export default function SearchBar() {
                         setSearch(e.target.value)
                     }}
                 />
-                <button className='font-awesome-btn'><FontAwesomeIcon icon={faSearch} /></button>
+                <button>Search</button>
             </form>
         </div>
     )

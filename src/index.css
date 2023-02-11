@@ -3,7 +3,7 @@
 }
 
 :root {
-    --borderRadius: 12.5px;
+    --borderRadius: 7.5px;
     --borderDensity: 0.5px;
 
     --primaryColor: #C33149;
@@ -21,6 +21,10 @@
     --transitionTF: cubic-bezier(0.645, 0.045, 0.355, 1);
 
 
+    --h1Color: #03C988;
+    --mainColor: #14283A;
+    --secColor: #1C82AD;
+
     --colorPrimary1: #000000;
     --colorPrimary2: #0E402D;
     --colorPrimary3: #295135;
@@ -32,7 +36,7 @@
 }
 
 #root, html {
-    background-color: #ececec;
+    background-color: var(--mainColor);
 }
 
 .modal-content {
@@ -46,11 +50,6 @@
     padding: 0% !important;
 }
 
-.section-style {
-    background-color: #ececec;
-}
-
-
 .modal-title {
     display: flex;
 }
@@ -61,16 +60,11 @@
     padding-left: 3%;
     width: 100%;
     border: none;
-    height: 4vh;
+    height: 2.25em;
+    font-weight: 600;
     border-radius: var(--borderRadius);
-    background: #ffffff;
-    box-shadow:  10px 10px 60px #a2a2a2;
-}
-
-
-.input-text:focus {
-    animation: 1s box-shadow-input both;
     outline: none;
+    background-color: white;
 }
 
 
@@ -85,6 +79,38 @@
     border: none;
     background-color: var(--colorPrimary3);
     color: white
+}
+
+
+.h1-header {
+    color: var(--h1Color);
+    font-weight: 1000;
+    font-size: 2em;
+}
+
+.h2-title {
+    color: var(--mainColor);
+    font-weight: 800;
+    font-size: 1.8em;
+}
+
+.h5-response {
+    color: white;
+    opacity: 100%;
+}
+
+.input-text-dark {
+    width: 100%;
+    border: 4px solid var(--h1Color);
+    border-radius: var(--borderRadius);
+    outline: none
+}
+
+.sm-label {
+    color: white;
+    text-transform: uppercase;
+    font-weight: 600;
+    margin: 0
 }
 
 

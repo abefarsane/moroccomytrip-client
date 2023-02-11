@@ -88,9 +88,7 @@ export default function Signup() {
                 username: username,
                 pwd: pwd
             }
-            axios.post({
-            baseURL: 'https://morocco-my-trip-api.herokuapp.com/',
-            url: 'auth/signup'},
+            axios.post('http://localhost:3001/auth/signup',
             { headers :{
                 'Content-Type': 'application/json'
             }}, user ).then((response) => {

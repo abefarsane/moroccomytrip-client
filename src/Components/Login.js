@@ -33,7 +33,7 @@ export default function Login({ redirectInstructions }) {
             email: email,  
             pwd: pwd
         }
-        Axios.post('https://morocco-my-trip-api.herokuapp.com/auth/login', data)
+        Axios.post('http://localhost:3001/auth/login', data)
         .then((response)=> {
             if(response.data.error) {
                 setErrMsg(response.data.error)
@@ -54,11 +54,11 @@ export default function Login({ redirectInstructions }) {
     
 
     return (
-        <div className="log-form">
+        <div className="log-form contain-desktop">
 
             <section className='header'>
                 <section>
-                    <h1>Login</h1>
+                    <h1 className='h1-header'>Login</h1>
                     <h2 className='sub-title'>Fill out your details</h2>
                 </section>
                 <p id={errMsg ? 'errmsg' : 'offscreen'} aria-live="assertive">{errMsg}</p>
@@ -66,7 +66,7 @@ export default function Login({ redirectInstructions }) {
 
                 <form onSubmit={login}>
                     <section>
-                        <h4 className='input-label'>Email</h4>
+                        <h4 className='sm-label'>Email</h4>
                         <input
                             className='input-text'
                             type='email' 
@@ -78,7 +78,7 @@ export default function Login({ redirectInstructions }) {
                         />
                     </section>
                     <section className='pwd'>
-                        <h4 className='input-label'>Password</h4>
+                        <h4 className='sm-label'>Password</h4>
                         <input
                             className='input-text'
                             type='password'
@@ -89,7 +89,7 @@ export default function Login({ redirectInstructions }) {
                         />
                     </section>
                     <section>
-                        <h5 className='form-label-sec'>Don't have an account yet? <a href='/signup'>Sign up</a></h5>
+                        <h5 className='h5-response'>Don't have an account yet?<br/> <a href='/signup'>Sign up</a></h5>
                         <button className='btn-primary'>Login</button>
                     </section>
                     

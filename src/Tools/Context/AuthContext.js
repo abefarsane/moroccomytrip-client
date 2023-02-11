@@ -6,6 +6,8 @@ export const AuthContext = createContext("")
 
 export const AuthContextProvider = ({children}) => {
 
+    
+
     const [authState, setAuthState] = useState({
         email: "",
         username: "",
@@ -26,7 +28,7 @@ export const AuthContextProvider = ({children}) => {
         checkAuth()
 
         if (authState.status) {
-            axios.put("https://morocco-my-trip-api.herokuapp.com/auth/update", user, {
+            axios.put('http://localhost:3001/auth/update', user, {
                 headers: { token: localStorage.getItem("token") }
             })
             .then((response) => {
@@ -50,7 +52,7 @@ export const AuthContextProvider = ({children}) => {
 
 
     const checkAuth = () => {
-        axios.get('https://morocco-my-trip-api.herokuapp.com/auth/check', {
+        axios.get('http://localhost:3001/auth/check', {
             headers: {
                 token: localStorage.getItem("token")
             }
@@ -75,7 +77,7 @@ export const AuthContextProvider = ({children}) => {
     
     useEffect(() => {
         checkAuth()
-        axios.get('https://morocco-my-trip-api.herokuapp.com/auth/check', {
+        axios.get('http://localhost:3001/auth/check', {
             headers: {
                 token: localStorage.getItem("token")
             }

@@ -2,6 +2,7 @@ import { text } from '@fortawesome/fontawesome-svg-core';
 import axios from 'axios';
 import React, { useContext, useEffect, useState } from 'react';
 import { AuthContext } from '../../../../Tools/Context/AuthContext'
+import UseEmail from "./UseEmail";
 
 export default function RequestForm({ packageId } ) {
 
@@ -14,6 +15,12 @@ export default function RequestForm({ packageId } ) {
     const [ errMsg, setErrMsg] = useState("")
     const [ success, setSuccess] = useState("")
 
+    const {
+        loading,
+        submitted,
+        error,
+        sendEmail
+      } = UseEmail("https://public.herotofu.com/v1/c45dede0-a791-11ed-a31e-753411848f80");
 
     const handleRequest = (e) => {
         e.preventDefault()
@@ -30,14 +37,20 @@ export default function RequestForm({ packageId } ) {
                 sender: authState.id
             }
             
-            axios.post('https://morocco-my-trip-api.herokuapp.com/messages/new', body, {
+            axios.post('http://localhost:3001/messages/new', body, {
                 headers: { token: localStorage.getItem('token')}
             }).then((response) => {
                 if (response.data.error) {
                     setSuccess('')
                     setErrMsg(response.data.error)
                 } else {
-                    setSuccess(response.data.message)
+
+
+                      sendEmail("You have a new booking request from " + (authState.username + "(" + authState.email + ")") + " " + textBody);
+
+                      setSuccess(response.data.message)
+
+                    
                 }
             })
 
@@ -49,6 +62,8 @@ export default function RequestForm({ packageId } ) {
     useEffect(() => {
         
     }, [])
+
+
 
 
     return (
@@ -64,7 +79,7 @@ export default function RequestForm({ packageId } ) {
                     </h4>
                     <textarea
                         value={textBody}
-                        className='input-text'
+                        className='input-text-dark'
                         onChange={(e) => {
                             setTextBody(e.target.value)
                         }}
@@ -83,7 +98,7 @@ export default function RequestForm({ packageId } ) {
                         type='number'
                         min='2'
                         max='8'
-                        className='input-text'
+                        className='input-text-dark'
                     />
                 </section>
                 <section>
@@ -98,7 +113,7 @@ export default function RequestForm({ packageId } ) {
                         type='number'
                         min='1'
                         max='60'
-                        className='input-text'
+                        className='input-text-dark'
                     />
                 </section>
                 <button className='btn-secondary'>

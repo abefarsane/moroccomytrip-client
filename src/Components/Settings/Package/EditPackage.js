@@ -48,7 +48,7 @@ export default function EditPackage() {
 
 
     const getPackageImage = (id) => {
-        axios.get(`https://morocco-my-trip-api.herokuapp.com/packages/package-image/${id}`)
+        axios.get(`http://localhost:3001/packages/package-image/${id}`)
             .then((response) => {
                 setImageUrl(response.data)
             })
@@ -69,10 +69,10 @@ export default function EditPackage() {
     function handleDeleteService(id) {
         console.log('pup')
 
-        axios.delete(`https://morocco-my-trip-api.herokuapp.com/services/${id}`)
+        axios.delete(`http://localhost:3001/services/${id}`)
             .then((response) => {
                 if(response.data.status) {
-                    axios.get(`https://morocco-my-trip-api.herokuapp.com/services/pack-services/${packId}`)
+                    axios.get(`http://localhost:3001/services/pack-services/${packId}`)
                         .then((response) => {
                             const services = response.data.services
                             let included = setServices(services, true)
@@ -117,7 +117,7 @@ export default function EditPackage() {
     const [description, setDescription] = useState('')
     const [descriptionFocus, setDescriptionFocus] = useState(false)
     const [validDescription, setValidDescription] = useState(false)
-    const DESCRIPTION_REGEX = /^[A-Za-z][A-Za-z ].{40,300}$/
+    const DESCRIPTION_REGEX = /^[A-Za-z][A-Za-z_\b ].{40,4000}$/
 
     const [location, setLocation] = useState('')
     const [locationFocus, setLocationFocus] = useState(false)
@@ -195,6 +195,7 @@ export default function EditPackage() {
     //CHECK DESCRIPTION REGEX
     useEffect(() => {
         setValidDescription(DESCRIPTION_REGEX.test(description));
+        console.log(validDescription)
     }, [description])
 
     //CHECK FORM ERRORS AND SET THEM
@@ -203,7 +204,7 @@ export default function EditPackage() {
     }, [])
 
     const updatePage = () => {
-        axios.get('https://morocco-my-trip-api.herokuapp.com/packages/all')
+        axios.get('http://localhost:3001/packages/all')
         .then((response) => {
                 if (response.data.status) {
                     setResponseJSON(response.data.packages)
@@ -263,7 +264,7 @@ export default function EditPackage() {
 
             //handleImgUploadRequest()
 
-            axios.post('https://morocco-my-trip-api.herokuapp.com/packages/new', newPackage, {
+            axios.post('http://localhost:3001/packages/new', newPackage, {
                 headers: { token: localStorage.getItem('token')}
             })
             .then((response) => {
@@ -306,7 +307,7 @@ export default function EditPackage() {
 
               
             setErrMsg('')
-            axios.post(`https://morocco-my-trip-api.herokuapp.com/packages/update/${packId}`, updatedPackage, {
+            axios.post(`http://localhost:3001/packages/update/${packId}`, updatedPackage, {
                 headers: { token: localStorage.getItem('token')}
             })
             .then((response) => {
@@ -336,7 +337,7 @@ export default function EditPackage() {
                 PackageId: packDetails.package.id,
                 included: type
             }
-            axios.post('https://morocco-my-trip-api.herokuapp.com/services/addToPackage', service)
+            axios.post('http://localhost:3001/services/addToPackage', service)
                 .then((response) => {
                     if (response.data.status) {
                         console.log('Added!')
@@ -370,7 +371,7 @@ export default function EditPackage() {
         
     }
     const getPackageServices = (pack) => {
-        axios.get(`https://morocco-my-trip-api.herokuapp.com/services/pack-services/${pack.id}`)
+        axios.get(`http://localhost:3001/services/pack-services/${pack.id}`)
             .then((response) => {
                 const services = response.data.services
                 included = setServices(services, true)
@@ -386,7 +387,7 @@ export default function EditPackage() {
             })
     }
     const handlePackageDelete = () => {
-        axios.delete(`https://morocco-my-trip-api.herokuapp.com/packages/${packId}`)
+        axios.delete(`http://localhost:3001/packages/${packId}`)
             .then(() => {
                 setShowEdit(false)
                 updatePage()
@@ -397,7 +398,7 @@ export default function EditPackage() {
 
         formData.append('file', image.data)
 
-        await axios.post('https://morocco-my-trip-api.herokuapp.com/packages/upload/package-img', formData)
+        await axios.post('http://localhost:3001/packages/upload/package-img', formData)
             .then((response) => {
                 console.log(response.data)
                 //setStatus(response.data.statusText)
@@ -421,7 +422,7 @@ export default function EditPackage() {
     return (
         <div className='edit-package animate__animated animate__fadeIn' >
             <section className='manage-package-head'>
-                <h4>Manage your packages</h4>
+                <h4 className='h5-response'>Manage your packages</h4>
 
                 <button className='btn-secondary' onClick={() => handleShow(true)}>+</button> 
 
@@ -609,12 +610,12 @@ export default function EditPackage() {
                     </div>     
                                 <hr></hr>
                     
-                    <p id='modal-lbl'>Services not included</p>  
                     <div className='list-services'>
+                    <p id='modal-lbl'>Services not included</p>  
                          {notIncludedService.map((singleService, index) => (
                             <div key={index} className='services'>
                                 <div className='service-box'>
-                                        <p id='modal-lbl'>{index + 1}</p>
+                                <p id='modal-lbl'>{index + 1}</p>
                                         <input
                                             name='service'
                                             type='text'
@@ -623,33 +624,33 @@ export default function EditPackage() {
                                             onChange={(e) => handlenotIncludedServiceChange(e, index)}
                                             required
                                         />
-
                                         {notIncludedService.length !== 1 && (
-                                            <>
-                                            <section onClick={() => handlenotIncludedServiceRemove(index)}>
-                                                <FontAwesomeIcon icon={faTrash} />
-                                            </section>
+                                                  <button
+                                                    type="button"
+                                                    onClick={() => handlenotIncludedServiceRemove(index)}
+                                                    className="remove-btn"
+                                                    id='remove-btn'
+                                                  >
                                                     <span>-</span>
-                                                    </>
+                                                  </button>
                                                 )}
+                                    
                                 </div>
-                                <div className='add-btn-div'>
-                                    {notIncludedService.length - 1 === index && notIncludedService.length < 6 && (
+                                {notIncludedService.length - 1 === index && notIncludedService.length < 6 && (
                                             <button
                                                 type='button'
-                                                onClick={handleServiceAdd}
+                                                onClick={handlenotIncludedServiceAdd}
                                                 className='add-btn'
                                                 id='add-btn'
                                                 >
-                                                <span>Add</span>
+                                                <span>+</span>
                                             </button>
                                         )}
-                                </div>
                             </div>
                             
                             
                          ))}
-                    </div>   
+                    </div>
                 </div>
                 
                 
@@ -906,7 +907,7 @@ export default function EditPackage() {
                         
                     </div>   
                 </div>
-                <button className='btn-secondary'>Update packge</button>
+                <button className='btn-secondary'>Update package</button>
             </form>
                     </Modal.Body>
                   </Container>
@@ -917,9 +918,7 @@ export default function EditPackage() {
                 <section className='list-title'>
                     <p>Title</p>
                     <p>Location</p>
-                    <p>Price</p>
                     <p>Days</p>
-                    <p>People</p>
                 </section>
                 <hr></hr>
                 {
@@ -927,11 +926,9 @@ export default function EditPackage() {
                      ( 
                         
                         <section key={key} className='list-item animate__animated animate__fadeIn' onClick={() => handleShowEdit(true, pack)}>
-                            <p>{pack.title.slice(0, 5).concat('...')}</p>
-                            <p>{pack.location.slice(0, 5).concat('...')}</p>
-                            <p>{pack.price}</p>
+                            <p>{pack.title}</p>
+                            <p>{pack.location}</p>
                             <p>{pack.duration}</p>
-                            <p>{pack.people}</p>
                         </section>
                     )
                 )

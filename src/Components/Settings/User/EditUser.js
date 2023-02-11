@@ -84,7 +84,7 @@ export default function EditUser() {
         }
 
         if(pwd && matchPwd && validMatch && oldPwd) {
-            axios.put("https://morocco-my-trip-api.herokuapp.com/auth/update", user, {
+            axios.put("http://localhost:3001/auth/update", user, {
                 headers: { token: localStorage.getItem('token')}
             })
             .then((response) => {
@@ -125,11 +125,11 @@ export default function EditUser() {
     
     return (
         <div className='edit-user-page animate__animated animate__fadeIn'>
-            <h4>Edit your profile</h4>
+            <h4 className='h5-response'>Edit your profile</h4>
             
             <section className='update-section'>
                 <label className='sm-label'>Username </label>
-                <h3>{authState.username}</h3>
+                <h3 className='input-text'>{authState.username}</h3>
                 <section className='modal-custom'>
                     <ModalCustom btnText='Update' btnClass='btn-primary'>
                     <h1 id='modal-title'>Update username</h1>
@@ -138,13 +138,12 @@ export default function EditUser() {
                         <form onSubmit={updateUsername}>
                             <p id='modal-lbl'>Your new username</p>
                             <input 
-                                className='input-text'
+                                className='input-text-dark'
                                 onChange={(e) => (
                                     setUsername(e.target.value),
                                     setErrMsg(''),
                                     setSuccess('')
                                 )}
-                                id='input-username'
                                 onFocus={() => setUsernameFocus(true)}
                                 onBlur={() => setUsernameFocus(false)}
                             />
@@ -163,7 +162,7 @@ export default function EditUser() {
 
                 <section className='update-section'>
                     <label className='sm-label'>Password</label>
-                    <h3>••••••••</h3>
+                    <h3 className='input-text'>••••••••</h3>
                     <section className='modal-custom'>
                         <ModalCustom btnText='Update' btnClass='btn-primary'>
                         <h1 id='modal-title'>Update password</h1>
@@ -182,7 +181,7 @@ export default function EditUser() {
                                         setPwd(''),
                                         setMatchPwd('')
                                     )}
-                                    className='input-text'
+                                    className='input-text-dark'
                                 />
                             </section>
                                 
@@ -194,7 +193,7 @@ export default function EditUser() {
                                     <FontAwesomeIcon icon={faTimes} className={validPwd || !pwd ? "hide" : "invalid"} />                        
                                 </p>
                                 <input
-                                    className='input-text'
+                                    className='input-text-dark'
                                     id='i-pwd'
                                     type='password' 
                                     onChange={(e) => (
@@ -224,7 +223,7 @@ export default function EditUser() {
                                 </p>
                                 <input
                                     type='password' 
-                                    className='input-text'
+                                    className='input-text-dark'
                                     onChange={(e) => (
                                         setMatchPwd(e.target.value),
                                         setErrMsg(''),

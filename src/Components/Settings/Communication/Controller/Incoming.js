@@ -11,19 +11,19 @@ import { io } from 'socket.io-client';
 export default function Incoming() {
 
     const [chat, setChat] = useState([])
+    const [senderInfo, setSenderInfo] = useState([])
     const navigate = useNavigate()
     const { authState, setSocket } = useContext(AuthContext)
     const socket = io.connect('http://localhost:3001')
 
 
     const getMessages = () => {
-        axios.get(`https://morocco-my-trip-api.herokuapp.com/chat/byUserId/${authState.id}`)
+        axios.get(`http://localhost:3001/chat/byUserId/${authState.id}`)
             .then((response) => {
                 if (response.data.error) {
 
                 } else {
                     setChat(response.data)
-                    console.log(chat)
                 }
             })
     }
@@ -37,7 +37,7 @@ export default function Incoming() {
             hasBeenRead: true
         }
 
-        axios.put(`https://morocco-my-trip-api.herokuapp.com/messages/update/${id}`, body, {
+        axios.put(`http://localhost:3001/messages/update/${id}`, body, {
             headers: { token: localStorage.getItem('token')}
         })
             .then((response) => {
@@ -47,45 +47,54 @@ export default function Incoming() {
                     getMessages()
                 }
             })
-    }
-
-
-
-
+        }
+    
     useEffect(() => {
-        axios.get(`https://morocco-my-trip-api.herokuapp.com/chat/byUserId/${authState.id}`)
+        axios.get(`http://localhost:3001/chat/byUserId/${authState.id}`)
             .then((response) => {
                 if (response.data.error) {
 
                 } else {
                     setChat(response.data)
-                    console.log(chat)
                 }
             })
     }, [])
+
+
+    const getUsername = (id) => {
+        axios.get(`http://localhost:3001/users/userById/${id}`)
+        .then((response) => {
+            console.log(response.data)
+        })
+    }
 
     //x.textBody.split('_')[0].slice(0, 30).concat('...')
 
     return (
         <section className='incoming-messages'>
-            <h2>Booking requests</h2>
+            <h2 className='h5-response'>Booking requests</h2>
             <section className='messages'>
             {
                 chat.length > 0 ? (
                     
-                    chat.map(x => {
+                    chat.map(  (x, key) => {
+                        
+
                         return (
-                            <section className='single-message message-read'>
-                                <section>
-                                        <FontAwesomeIcon icon={faBoxArchive} />
-                                    </section>
+                            <section className='single-message'>
                                     <section className='message-details' onClick={() => {
                                 navigate(`/chat/${x.id}`)
                                 socket.emit('join_chat', x.id)
                                 setSocket(socket)
                             }}>
+                                {
+                                    authState.admin ? (
                                         <h5>{x?.Package?.title}</h5>
-                                        
+                                    ) : (
+                                        <h5>{x?.Package?.title}</h5>
+                                    )
+                                }
+
                                     </section>
                                     <ModalCustom btnText={<FontAwesomeIcon icon={faEllipsis} />} btnClass="options-chat">
                                     <h1 id='modal-title'>Delete chat</h1>

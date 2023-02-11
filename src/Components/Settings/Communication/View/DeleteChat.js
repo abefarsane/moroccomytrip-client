@@ -13,7 +13,7 @@ export default function DeleteChat({chatId}) {
     const handleRequest = (e) => {
         e.preventDefault()
         
-        axios.delete(`https://morocco-my-trip-api.herokuapp.com/chat/deleteById/${chatId}`)
+        axios.delete(`http://localhost:3001/chat/deleteById/${chatId}`)
             .then((response) => {
                 if (response.data.error) {
                     setErrMsg(response.data.error)

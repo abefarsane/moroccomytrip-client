@@ -7,6 +7,8 @@ import { AuthContext } from '../Tools/Context/AuthContext';
 import ModalCustom from './ModalCustom'
 import Login from './Login'
 import RequestForm from './Settings/Communication/View/RequestForm';
+import { CustomSliderServices } from '../Tools/sComponents/CustomSlider';
+import Badge from 'react-bootstrap/Badge';
 
 export default function Package() {
 
@@ -20,7 +22,7 @@ export default function Package() {
     const { authState } = useContext(AuthContext)
 
     const getPackageDetails = () => {
-        axios.get(`https://morocco-my-trip-api.herokuapp.com/packages/byID/${id}`)
+        axios.get(`http://localhost:3001/packages/byID/${id}`)
             .then((response) => {
                 if (response.data.error) {
                     setPack(null)
@@ -33,7 +35,7 @@ export default function Package() {
 
     const checkIfAlreadyBooked = () => {
 
-        axios.get(`https://morocco-my-trip-api.herokuapp.com/chat/check-if-already-sent/${id}/${authState.id}`)
+        axios.get(`http://localhost:3001/chat/check-if-already-sent/${id}/${authState.id}`)
             .then((response) => {
                 if (response.data.status) {
                     setBooked(true)
@@ -61,95 +63,102 @@ export default function Package() {
                     <>
                         <section className='package-header'>
                             <section className='header-details'>
-                                <h1>{pack.title}</h1>
-                                <p>{pack.location}</p>
-                                </section>
-                                <section className='booking-request'>
-                                    <ModalCustom btnText={<FontAwesomeIcon icon={faComments} />} btnClass='chat-btn'>
+                                <img src={pack.Images[0]?.urlPath}/>
+                                <h2 className='h5-response'>{pack.title}</h2>
+                                <p className='animate__animated animate__flash animate__delay-2s'>Hover here to see the image!</p>
+                                
+                            </section>
+                        </section>
+                        <section className='package-data'>
+                            <section className='days'>
+                                <h3>For <strong>{pack.duration + (pack.duration > 1 ? " days" : " day")}</strong></h3>
+                            </section>
+                            <section className='people'>
+                                <h3>{pack.people + (pack.people > 1 ? " people" : " person")}</h3>
+                            </section>
+                            <section className='price'>
+                                <h3>Starting from <strong>€{pack.price}</strong></h3>
+                            </section>
+                        </section>
 
+                        <section className='request'>
+                                <ModalCustom btnText={"Start a booking request"} btnClass='chat-btn'>
+
+                                {
+                                    authState.status ? (
+                                        <>
+                                        {
+                                            booked ? (
+                                                <h3 className='status-booking'>Already <strong> booked!</strong></h3>
+                                            ) : (
+                                                <>
+                                                    <h1 id='modal-title'>Booking request</h1>
+                                                    <RequestForm packageId={id} />
+                                                </>
+
+                                            )
+                                        }
+
+                                        </>
+                                    ) : (
+                                        <>
+                                            <h1 id='modal-title'></h1>
+                                            <Login redirectInstructions={`/package/${id}`}/>
+                                        </>
+                                    )
+                                }
+                                </ModalCustom>
+                            </section>
+                        <section className='description'>
+                            <h2>About this package</h2>
+                            <p>{pack.description}</p>
+                        </section>
+
+                        <section className='contain'>
+                            <section className='services-included'>
+                                <h2>What is included?</h2>
+                                    <section className='services'>
+
+                                    <CustomSliderServices>
                                     {
-                                        authState.status ? (
-                                            <>
-                                            {
-                                                booked ? (
-                                                    <h3 className='status-booking'>Already <strong> booked!</strong></h3>
-                                                ) : (
-                                                    <>
-                                                        <h1 id='modal-title'>Booking request</h1>
-                                                        <RequestForm packageId={id} />
-                                                    </>
+                                        pack.Services?.length > 0 ? (
+                                            pack.Services.map(x => {
 
+                                                return x.included && (
+                                                    <Badge>{x.serviceBody}</Badge>
                                                 )
-                                            }
 
-                                            </>
+                                                
+                                            })
                                         ) : (
-                                            <>
-                                                <h1 id='modal-title'></h1>
-                                                <Login redirectInstructions={`/package/${id}`}/>
-                                            </>
+                                            <h5>No Services</h5>
                                         )
                                     }
-
-                                
-                                    </ModalCustom>
+                                    </CustomSliderServices>
                                 </section>
-                        </section>
-                        <section className='package-imgs '>
-                            <img src={pack?.Images[0]?.urlPath}/>
-                        </section>
-                        <section className='package-info'>
-                            <section className=''>
-                                <p>How many days?</p>
-                                
-                                <h4>{(pack.duration)}  {pack.duration > 2 ? " Days" : " Day"} and  {(pack.duration - 1) + (pack.duration - 1 > 1 ? " Nights" : " Night")} </h4>
                             </section>
-                            <section className=''>
-                                <p>For</p>
-                                <div>
-                                    <h4>{pack.people}</h4>
+
+                            <section className='services-not-included'>
+                                <section className='services'>
+
+                                    <CustomSliderServices>
                                     {
-                                        pack.people > 1 ? (
-                                            <FontAwesomeIcon icon={faPeopleGroup}/>
+                                        pack.Services?.length > 0 ? (
+                                            pack.Services.map(x => {
+
+                                                return !x.included && (
+                                                    <Badge>{x.serviceBody}</Badge>
+                                                )
+
+                                                
+                                            })
                                         ) : (
-                                            <FontAwesomeIcon icon={faPersonWalking}/>
+                                            <h5>No Services</h5>
                                         )
                                     }
-                                    
-                                </div>
-                            </section>
-                            <section className=''>
-                                <p>At</p>
-                                <h4>{pack.price} <span>MAD</span></h4>
-                            </section>
-                        </section>
-                        <section className='package-details'>
-                            <section className='package-description' >
-                                <p>Description</p>
-                                <p>{pack.description}</p>
-                            </section>
-                            <section className='package-services'>
-                                <p>What is included and not?</p>
-                                <div>
-                                    <section className='services-included'>
-                                        {
-                                            pack?.Services?.map(x => {
-                                                return x.included && <span><FontAwesomeIcon icon={faCheck}/>{x.serviceBody}</span>
-                                            })
-                                        }
-                                    </section>
-                                    <section className='services-not-included'>
-                                        {
-                                            pack?.Services?.map(x => {
-                                                return !x.included && <span>{x.serviceBody}<FontAwesomeIcon icon={faCircleXmark}/></span>
-                                            })
-                                        }
-                                    </section>
-                                </div>
-                            </section>
-                            <section className='package-description'>
-                                <p>Description</p>
-                                <p>{pack.description}</p>
+                                    </CustomSliderServices>
+                                </section>
+                                <h2>What is not included?</h2>
                             </section>
                         </section>
                     </>

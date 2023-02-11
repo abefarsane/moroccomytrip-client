@@ -1,13 +1,11 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import axios from 'axios';
 import React, { Component, useContext, useEffect, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { faChartSimple, faFaceSmile, faIndustry, faMessage, faPaperPlane, faUser, faUserCircle, faPeopleGroup, faUserShield, faBackspace, faBackward, faChevronLeft} from '@fortawesome/free-solid-svg-icons';
 import { AuthContext } from '../../../../Tools/Context/AuthContext';
 import { text } from '@fortawesome/fontawesome-svg-core';
 import io from 'socket.io-client'
-
-
 
 export default function ChatPage() {
 
@@ -24,14 +22,14 @@ export default function ChatPage() {
 
 
     const [url, setUrl] = useState("")
-
+    var elem
     
 
     const navigate = useNavigate()
 
     const getData = async () => {
 
-        await axios.get(`https://morocco-my-trip-api.herokuapp.com/chat/chatHistory/${chatId}`)
+        await axios.get(`http://localhost:3001/chat/chatHistory/${chatId}`)
             .then((response) => {
                 if (response.data.error) { 
 
@@ -44,7 +42,7 @@ export default function ChatPage() {
     }
 
     const getPackageImage = async () => {
-        await axios.get(`https://morocco-my-trip-api.herokuapp.com/packages/package-image/${chatHistory.Package.id}`)
+        await axios.get(`http://localhost:3001/packages/package-image/${chatHistory.Package.id}`)
             .then((response) => {
                 setUrl(response.data)
             })
@@ -63,7 +61,7 @@ export default function ChatPage() {
             }
             await socket.emit('send_text', bodyData)
 
-            axios.post(`https://morocco-my-trip-api.herokuapp.com/chat/send-text/${chatHistory.id}`, {
+            axios.post(`http://localhost:3001/chat/send-text/${chatHistory.id}`, {
                 sender: authState.id,
                 text_body: textToSend
             }).then((response) => {
@@ -74,6 +72,7 @@ export default function ChatPage() {
         }
 
     }
+
 
 
     useEffect(() => {
@@ -93,9 +92,10 @@ export default function ChatPage() {
 
 
     return (
-        <div className='chat-page'>
+        <div className='chat-page contain-desktop'>
+
             <div className='chat-section'>
-                <section className='chat-details'>
+                    <section className='chat-details'>
 
                     {
                         
@@ -121,13 +121,10 @@ export default function ChatPage() {
 
                     
                 </section>
-
-                <section className='chat-history' id='chatScroll'>
+                <section className='chat-history'>
                 {
                         chatHistory.length < 1 ? (
-                            <section>
                                 <h3>Start a new conversation!</h3>
-                            </section>
                         ) : (
                             getPackageImage(),
                             chatHistory?.Messages.map((x, key) => {
@@ -135,12 +132,16 @@ export default function ChatPage() {
                                 let style = authState.id == x.UserId ?
                                 'single-chat-receiver' : 'single-chat-sender'
                                 
+                                let date = new Date(x.createdAt)
+                                const monthNames = ["January", "February", "March", "April", "May", "June",
+                                  "July", "August", "September", "October", "November", "December"
+                                ];
+
                                 return (
                                     key == 0 ? (
-
                                         <>
-                                            <section className='message-package'>
-                                                <section className={style}>
+                                            <section className={'message-package ' + style}>
+                                                <section>
                                                     <img src={url} />
                                                     <h2>{chatHistory.Package.title}</h2>
                                                     <h3>{x.text_body.split('_')[1]} <FontAwesomeIcon icon={faPeopleGroup}/></h3>
@@ -150,23 +151,24 @@ export default function ChatPage() {
                                             </section>
                                             <section className={style}>
                                                 <p>{x.text_body?.split('_')[0]}</p>
+                                                <section className='date-sent'>
+                                                    <p>{date.getDate()} {monthNames[date.getMonth()]}</p>
+                                                </section>
                                             </section>
-
                                         </>
                                     ) : (
-                                        <>
                                             <section className={style}>
                                                 <p>{x.text_body?.split('_')[0]}</p>
+                                                <section className='date-sent'>
+                                                    <p>{date.getDate()} {monthNames[date.getMonth()]}</p>
+                                                </section>
                                             </section>
-                                        </>
                                     )
                                 )
                             })
                         )
                     }
                 </section>
-
-
                 <section className='chat-form'>
                     <form onSubmit={handleReply}>
                         <input
