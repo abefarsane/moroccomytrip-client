@@ -56,7 +56,6 @@
       }
 
       .svg-section {
-
         display: none;
     }
     
@@ -226,18 +225,6 @@
         margin: 0;
     }
 
-    
-
-.services-included h2 {
-    font-weight: 800;
-    text-align: center;
-    margin-top: 5%;
-    color: var(--mainColor);
-}
-
-.services {
-    
-}
 
 .slider-section {
     grid-template-columns: 1fr 1fr 1fr;
@@ -252,66 +239,36 @@
 }
 
 
-
-.services-included {
-    position: relative;
+.service-contain {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    padding: 4%;
-    background-color: var(--h1Color);
-    width: 100%;
-    height: 100%;
-    border-radius:var(--borderRadius) var(--borderRadius) 0 0;
+    column-gap: 5%;
 }
 
-.services-not-included {
-    position: relative;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    padding: 4%;
-    position: relative;
-    height: 100%;
-    background-color: var(--secColor);
-    width: 100%;
-    border-radius: 0 0 var(--borderRadius) var(--borderRadius);
-}
-
-
-
-
-.s-item {
-    color: black;
-    border-radius: var(--borderRadius);
-    border: 3px solid white;
-    padding: 3%;
-    padding-right: 5%;
-    padding-left: 5%;
-    display: flex;
-    align-items: center;
-    white-space: nowrap;
-    font-weight: 800;
-    color: white;
-    width: min-content;
-    height: 100%;
-}
-.services-included h2 {
-    color: var(--mainColor);
-    text-align: right;
-    font-weight: 800;
-    margin: 0;
-    grid-column: 1;
-    align-self: center;
-    font-size: 3em;
-}
-
-.services-not-included h2 {
-    margin: 0;
-    grid-column: 2;
-    color: var(--h1Color);
+.services:nth-child(1) h2 {
     text-align: left;
-    font-weight: 800;
-    font-size: 3em;
-    align-self: center;
+}
+
+.services:nth-child(2) h2 {
+    text-align: right;
+}
+
+.not-included {
+    text-align: right;
+}
+
+.contain-booking {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    column-gap: 4%;
+}
+
+.price-s {
+    grid-row: span 2/1;
+    grid-column: 2;
+    display: grid;
+    align-items: center;
+    justify-content: center;
 }
 
 
@@ -325,5 +282,8 @@ and (max-device-width : 1224px) {
         display: grid;
         grid-template-columns: 1fr 1fr;
         column-gap: 5%;
+    }
+    .svg-section {
+        display: none;
     }
 }

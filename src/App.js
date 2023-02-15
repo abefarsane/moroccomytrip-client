@@ -16,7 +16,6 @@ import './Tools/sComponents/SmallComponents.css'
 import './Components/ComponentsStyle.css'
 import './Responsive.css'
 
-
 import ReactDOM from "react-dom/client";
 import {
   createBrowserRouter,
@@ -25,6 +24,7 @@ import {
 import Results from './Components/Results';
 import { Container } from 'react-bootstrap';
 import Messages from './Components/Settings/Communication/Messages';
+import BookingPage from './Components/Settings/Communication/View/BookingPage';
 
 
 function App() {
@@ -42,6 +42,7 @@ function App() {
 
         <Route element={<PrivateRoutes allowedRoles={[ 2000 ]}/>}>
           <Route path='/settings' element={<Settings />} />
+          <Route path='/booking/:id' element={<BookingPage />} />
         </Route>
 
         <Route path='/packages' element={<Packages />} />
@@ -50,6 +51,7 @@ function App() {
 
         <Route path='/about' element={<About />} />
         <Route path='/chat/:chatId' element={<ChatPage />} />
+
 
         <Route path='/*' element={<NoMatchedPath />} />
       </Routes>

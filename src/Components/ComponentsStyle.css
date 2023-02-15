@@ -400,11 +400,7 @@ h1 {
 .list-services section {
     margin-bottom: 3%;
 }
-.services {
-    margin-bottom: 15%;
-    margin-top: 5%;
-    grid-template-rows: 1fr 1fr;
-}
+
 
 
 .services hr {
@@ -674,24 +670,6 @@ h1 {
     padding: 2%;
 }
 
-
-.contain {
-    position: relative;
-    display: grid;
-    grid-template-rows: 1fr 1fr;
-    height: 20em;
-    border-radius: var(--borderRadius);
-}
-.services-included {
-    background-color: var(--h1Color);
-    height: 10em;
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    border-radius:var(--borderRadius) var(--borderRadius) 0 0;
-}
-
 .s-item {
     color: black;
     border-radius: var(--borderRadius);
@@ -703,22 +681,6 @@ h1 {
     width: min-content;
     height: fit-content;
     margin-right: 2%;
-}
-
-.services-not-included {
-    background-color: var(--secColor);
-    position: absolute;
-    height: 10em;
-    bottom: 0;
-    width: 100%;
-    border-radius: 0 0 var(--borderRadius) var(--borderRadius);
-}
-
-.services-not-included h2 {
-    color: var(--h1Color);
-    text-align: center;
-    margin-top: 5%;
-    font-weight: 800;
 }
 
 .package-data section {
@@ -781,12 +743,6 @@ h1 {
     color: rgb(255, 0, 0);
 }
 
-.services-included {
-    display: grid;
-}
-.services-not-included {
-    display: grid;
-}
 
 .selected {
     background-color: var(--h1Color) !important;
@@ -821,12 +777,13 @@ h1 {
 
 .single-message {
     display: grid;
-    grid-template-columns: 1fr 10%;
+    grid-template-columns: 1fr 15%;
     align-items: center;
     background-color: rgb(255, 255, 255);
     border-radius: var(--borderRadius);
     padding-left: 3%;
     padding-right: 3%;
+    position: relative;
 }
 
 
@@ -861,12 +818,24 @@ h1 {
 
 .single-message svg {
     height: 2em;
+    grid-column: 3 !important;
 }
 
 .messages {
     display: grid;
     grid-template-columns: 1fr;
     row-gap: 7.5%;
+}
+
+
+.notification {
+    position: absolute;
+    height: 1em;
+    width: 1em;
+    background-color: red;
+    border-radius: 50%;
+    top: -15%;
+    right: -1.5%;
 }
 
 
@@ -889,7 +858,7 @@ h1 {
 
 .chat-details {
     display: grid;
-    grid-template-columns: 1fr 85%;
+    grid-template-columns: 1fr 55% 25%;
     align-items: center;
     column-gap: 4%;
     padding: 4%;
@@ -976,6 +945,15 @@ h1 {
     opacity: 60%;
     font-weight: 400;
 }
+
+.single-chat-receiver p {
+    padding-bottom: 2%;
+}
+
+.single-chat-sender p {
+    padding-bottom: 2%;
+}
+
 
 
 
@@ -1093,17 +1071,22 @@ h1 {
 
 .svg-section {
     position: absolute;
-    bottom: -10%;
+    bottom: 0%;
     width: 100%;
+    background: url(./Media/wp.png);
+    height: 35%;
+    background-size: cover;
     left: 0;
+    z-index: 0;
 }
+
 
 .home-page .carousel {
     margin-top: 30%;
 }
 
 .slider {
-    margin-top: 30%;
+    margin-top: 20%;
 }
 
 .slider-section {
@@ -1112,6 +1095,7 @@ h1 {
     width: 100%;
     height: 100%;
     margin: auto;
+    z-index: 1;
 }
 
 ::-webkit-scrollbar {
@@ -1149,4 +1133,218 @@ h1 {
 
 .chat-options {
     display: none;
+}
+
+
+.services {
+    width: 100%;
+    margin-bottom: 5%;
+}
+
+
+.services .badge {
+    padding: 5%;
+    margin-bottom: 2%;
+    margin-right: 2%;
+}
+
+.services h2 {
+    color: white;
+    font-weight: 800;
+}
+
+.not-included .badge {
+    padding: 5%;
+    background-color: var(--h1Color) !important;
+    margin-bottom: 2%;
+    margin-right: 2%;
+}
+
+
+
+.MuiBox-root .log-form .sm-label {
+    color: black;
+}
+
+.MuiBox-root .log-form .input-text {
+    border-radius: var(--borderRadius);
+    border: 1px solid grey;
+}
+
+.MuiBox-root .h5-response {
+    color: grey;
+    font-size: 1em;
+}
+
+.MuiBox-root .sub-title {
+    color: black;
+    font-weight: 700;
+}
+
+.MuiBox-root .h5-response a {
+    text-decoration: none;
+    color: var(--h1Color);
+}
+
+.create-booking {
+    height: 100%;
+    border-radius: var(--borderRadius);
+    background-color: var(--h1Color);
+    display: flex !important;
+    text-align: center;
+    align-items: center;
+    font-size: .8em;
+    font-weight: 800;
+    color: white;
+    margin: 0;
+    text-transform: uppercase;
+    border: none;
+}
+
+#mod {
+    height: 100%;
+}
+
+.booking-form .input-label {
+    margin: 0;
+    margin-bottom: 2%;
+}
+
+.booking-form form {
+    display: grid;
+    row-gap: 2%;
+}
+
+.booking-form textarea {
+    height: 8em;
+    resize: none;
+    padding: 2%;
+}
+
+.price-booking section {
+    display: grid;
+    grid-template-columns: 40% 1fr;
+    column-gap: 3%;
+}
+
+.booking-form button {
+    margin-bottom: 10%;
+    margin-top: 5%;
+}
+
+.single-booking {
+    display: grid;
+    grid-template-columns: 1fr 30%;
+    margin-bottom: 4%;
+    background-color: rgb(255, 255, 255);
+    border-radius: var(--borderRadius);
+    padding-left: 3%;
+    padding-right: 3%;
+    position: relative;
+}
+
+.single-booking h5 {
+    color: rgb(0, 0, 0);
+    font-weight: 600;
+    font-size: 1em;
+    margin: 0;
+    margin-top: 3%;
+    margin-bottom: 3%;
+}
+
+.delete-btn {
+    margin: 0;
+    border: none;
+    background-color: red;
+    align-self: center;
+    align-self: center;
+    color: white;
+    border-radius: var(--borderRadius);
+}
+
+.pending {
+    color: orange;
+    font-weight: 800;
+}
+
+.confirmed {
+    color: var(--h1Color);
+    font-weight: 800;
+}
+
+.single-booking #mod {
+    display: flex;
+    align-items: center;
+    justify-content: right;
+}
+
+.notes, .date, .price-s, .payment {
+    background-color: white;
+    padding: 2%;
+    border-radius: var(--borderRadius);
+    margin-top: 5%;
+}
+
+.notes h4, .price-s h4, .date h4, .payment {
+    text-transform: uppercase;
+    font-weight: 800;
+    font-size: 1.2em;
+    margin: 0;
+}
+
+.price-s p {
+    font-size: 1.4em;
+    text-align: center;
+    color: var(--secColor);
+}
+
+.payment {
+    margin-top: 5%;
+    text-align: center;
+}
+
+.payment  strong {
+    font-size: 1.8em;
+    color: var(--h1Color);
+}
+.payment p {
+    margin: 0;
+}
+
+.payment .warning {
+    color: red;
+}
+
+.pay-btn {
+    width: 100%;
+    background-color: #0079C1;
+    height: 3em;
+    border-radius: var(--borderRadius);
+    border: none;
+    margin-top: 2%;
+    font-size: 1.4em;
+    font-weight: 800;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.pay-btn svg {
+    font-size: 1.2em;
+    margin-right: 2%;
+}
+
+.booking-header {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    column-gap: 5%;
+}
+
+#pwdnote, #confirmnote, #emConfNote {
+    color: white;
+}
+
+.signForm form section {
+    margin-bottom: 3%;
 }

@@ -1,9 +1,9 @@
 import React, { Component, useState, useEffect, useContext } from 'react';
 import Incoming from './Controller/Incoming'
-import Sent from './Controller/Sent'
+import Bookings from './Controller/Bookings';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { AuthContext } from '../../../Tools/Context/AuthContext';
-import { faUser, faCubes, faInbox, faReply } from '@fortawesome/free-solid-svg-icons';
+import { faUser, faCubes, faInbox, faReply, faFileInvoiceDollar } from '@fortawesome/free-solid-svg-icons';
 
 export default function Messages() {
 
@@ -21,16 +21,16 @@ export default function Messages() {
                 <section id='incoming' onClick={() => (
                         setToDisplay(<Incoming />),
                         document.getElementById('incoming').classList.add('selected'),
-                        document.getElementById('sent').classList.remove('selected')
+                        document.getElementById('bookings').classList.remove('selected')
                     )}>
                     <FontAwesomeIcon icon={faInbox} />
                 </section>
-                <section id='sent' onClick={() => (
-                    setToDisplay(<Sent />),
-                    document.getElementById('sent').classList.add('selected'),
+                <section id='bookings' onClick={() => (
+                    setToDisplay(<Bookings />),
+                    document.getElementById('bookings').classList.add('selected'),
                     document.getElementById('incoming').classList.remove('selected')
                 )}> 
-                    <FontAwesomeIcon icon={faReply} />
+                    <FontAwesomeIcon icon={faFileInvoiceDollar} />
                 </section>
             </section>
 

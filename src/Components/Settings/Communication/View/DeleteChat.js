@@ -1,10 +1,13 @@
-import React, { Component, useEffect, useState } from 'react';
+import React, { Component, useContext, useEffect, useState } from 'react';
 import axios from 'axios';
+import { AuthContext } from '../../../../Tools/Context/AuthContext';
 
 export default function DeleteChat({chatId}) {
 
     const [ errMsg, setErrMsg] = useState("")
     const [ success, setSuccess] = useState("")
+
+    const { api } = useContext(AuthContext)
 
     useEffect(() => {
         console.log(chatId)
@@ -13,7 +16,7 @@ export default function DeleteChat({chatId}) {
     const handleRequest = (e) => {
         e.preventDefault()
         
-        axios.delete(`http://localhost:3001/chat/deleteById/${chatId}`)
+        axios.delete(`${api}/chat/deleteById/${chatId}`)
             .then((response) => {
                 if (response.data.error) {
                     setErrMsg(response.data.error)

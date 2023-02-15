@@ -1,14 +1,16 @@
 import axios from 'axios';
-import React, { Component, useEffect, useState } from 'react';
+import React, { Component, useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import {AuthContext} from '../Context/AuthContext'
 
 export default function CustomSlider () {
 
 
     const [packages, setPackages ] = useState([])
+    const { api } = useContext(AuthContext)
 
     const getPackages = () => {
-        axios.get('http://localhost:3001/packages/all')
+        axios.get(`${api}/packages/all`)
             .then((response) => {
                 setPackages(response.data.packages)
             })

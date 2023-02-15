@@ -6,43 +6,41 @@ import { faChartSimple, faFaceSmile, faIndustry, faMessage, faPaperPlane, faUser
 import { AuthContext } from '../../../../Tools/Context/AuthContext';
 import { text } from '@fortawesome/fontawesome-svg-core';
 import io from 'socket.io-client'
+import ModalCustom from '../../../ModalCustom';
+import BookingForm from './BookingForm';
 
 export default function ChatPage() {
 
     const {chatId} = useParams()
     const [ chatHistory, setChatHistory ] = useState([])
-
-
     const [textToSend, setTextToSend ] = useState('')
-
-    const { authState, socket, setSocket } = useContext(AuthContext)
-
-
+    const { authState, socket, setSocket, api } = useContext(AuthContext)
     const [senderData, setSenderData] = useState({})
-
-
     const [url, setUrl] = useState("")
-    var elem
+    
+    const [packageId, setPackageId] = useState()
+    
     
 
     const navigate = useNavigate()
 
     const getData = async () => {
 
-        await axios.get(`http://localhost:3001/chat/chatHistory/${chatId}`)
+        await axios.get(`${api}/chat/chatHistory/${chatId}`)
             .then((response) => {
                 if (response.data.error) { 
 
                 } else {
                     setChatHistory(response.data.data)
                     setSenderData(response.data.senderData)
+                    setPackageId(response.data.data.PackageId)
                 }
             })
 
     }
 
     const getPackageImage = async () => {
-        await axios.get(`http://localhost:3001/packages/package-image/${chatHistory.Package.id}`)
+        await axios.get(`${api}/packages/package-image/${chatHistory.Package.id}`)
             .then((response) => {
                 setUrl(response.data)
             })
@@ -61,11 +59,17 @@ export default function ChatPage() {
             }
             await socket.emit('send_text', bodyData)
 
-            axios.post(`http://localhost:3001/chat/send-text/${chatHistory.id}`, {
+            axios.post(`${api}/chat/send-text/${chatHistory.id}`, {
                 sender: authState.id,
                 text_body: textToSend
+            }, {
+                headers: { token: localStorage.getItem('token')}
             }).then((response) => {
-                setTextToSend("")
+                if (response.data.error) {
+                    navigate('/login')
+                } else {
+                    setTextToSend("")
+                }
             })
         } else {
             console.log('Fill text box.')
@@ -91,6 +95,8 @@ export default function ChatPage() {
 
 
 
+
+
     return (
         <div className='chat-page contain-desktop'>
 
@@ -107,6 +113,9 @@ export default function ChatPage() {
                                     <h4>{senderData.username}</h4>
                                     <p>Our client since <strong>{senderData?.createdAt?.split('-')[0]}</strong></p>
                                 </section>
+                                <ModalCustom btnText='Create booking' btnClass='create-booking'>
+                                    <BookingForm clientId={senderData?.id} packageId={packageId} chatId={chatHistory.id}/>
+                                </ModalCustom>
                             </>
                         ) : (
                             <>

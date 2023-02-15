@@ -6,7 +6,7 @@ import UseEmail from "./UseEmail";
 
 export default function RequestForm({ packageId } ) {
 
-    const { authState } = useContext(AuthContext)
+    const { authState , api} = useContext(AuthContext)
 
     const [ groupSize, setGroupSize ] = useState()
     const [ duration, setDuration ] = useState()
@@ -37,7 +37,7 @@ export default function RequestForm({ packageId } ) {
                 sender: authState.id
             }
             
-            axios.post('http://localhost:3001/messages/new', body, {
+            axios.post(`${api}/messages/new`, body, {
                 headers: { token: localStorage.getItem('token')}
             }).then((response) => {
                 if (response.data.error) {

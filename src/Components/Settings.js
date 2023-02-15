@@ -27,14 +27,14 @@ export default function Settings( {target}, {trg}) {
                         setToDisplay(<EditUser />)
                         document.getElementById('user').classList.add('selected')
                         document.getElementById('messages').classList.remove('selected')
-                        document.getElementById('package').classList.remove('selected')
+                        document.getElementById('package')?.classList.remove('selected')
                     }}>
                     <FontAwesomeIcon icon={faUser} />
                 </section>
                 {authState.admin && (
                     <section id='package' onClick={() => {
                         setToDisplay(<EditPackage />)
-                        document.getElementById('package').classList.add('selected')
+                        document.getElementById('package')?.classList.add('selected')
                         document.getElementById('user').classList.remove('selected')
                         document.getElementById('messages').classList.remove('selected')
                     }}> 
@@ -45,7 +45,7 @@ export default function Settings( {target}, {trg}) {
                         setToDisplay(<Messages />)
                         document.getElementById('messages').classList.add('selected')
                         document.getElementById('user').classList.remove('selected')
-                        document.getElementById('package').classList.remove('selected')
+                        document.getElementById('package')?.classList.remove('selected')
                 }}>
                     <FontAwesomeIcon icon={faEnvelope} />
                 </section>

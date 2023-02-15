@@ -7,6 +7,7 @@ import { faCheck, faTimes, faInfoCircle } from '@fortawesome/free-solid-svg-icon
 
 export default function Signup() {
 
+    const { api } = useContext(AuthContext)
 
     const [username, setUsername] = useState('')
     const [usernameFocus, setUsernameFocus] = useState(false)
@@ -88,10 +89,7 @@ export default function Signup() {
                 username: username,
                 pwd: pwd
             }
-            axios.post('http://localhost:3001/auth/signup',
-            { headers :{
-                'Content-Type': 'application/json'
-            }}, user ).then((response) => {
+            axios.post(`${api}/auth/signup`, user ).then((response) => {
                 if(response.data.status) {
                     navigate('/login');
                 } 
@@ -106,7 +104,7 @@ export default function Signup() {
         <div className='signForm'>
             <section className='header'>
                 <section>
-                    <h1>Sign up</h1>
+                    <h1 className='h1-header'>Sign up</h1>
                     <h2 className='sub-title'>Fill out your details</h2>
                 </section>
                 <p id={errMsg ? 'errmsg' : 'offscreen'} aria-live="assertive">{errMsg}</p>
@@ -115,7 +113,7 @@ export default function Signup() {
             <form onSubmit={handleSubmit}>
 
                 <section id='username'>
-                    <h4 className='input-label'>
+                    <h4 className='sm-label'>
                         Your username
                         <FontAwesomeIcon icon={faCheck} className={validUsername ? "valid" : "hide"} />
                         <FontAwesomeIcon icon={faTimes} className={!validUsername ? "invalid" : "hide"} />
@@ -143,7 +141,7 @@ export default function Signup() {
 
 
                 <section id='email'>
-                <h4 className='input-label'>Your email</h4>
+                <h4 className='sm-label'>email</h4>
                     <input
                         type='email' 
                         onChange={(e) => {
@@ -154,7 +152,7 @@ export default function Signup() {
                     />
                 </section>
                 <section id='confemail'>
-                <h4 className='input-label'>
+                <h4 className='sm-label'>
                         Confirm your email
                         <FontAwesomeIcon icon={faCheck} className={emailMatch && emailConf ? "valid" : "hide"} />
                         <FontAwesomeIcon icon={faTimes} className={!emailMatch ? "invalid" : "hide"} />
@@ -178,7 +176,7 @@ export default function Signup() {
 
 
                 <section id='pwd'>
-                <h4 className='input-label'>
+                <h4 className='sm-label'>
                         Password
                         <FontAwesomeIcon icon={faCheck} className={validPwd ? "valid" : "hide"} />
                         <FontAwesomeIcon icon={faTimes} className={validPwd || !pwd ? "hide" : "invalid"} />                        
@@ -204,7 +202,7 @@ export default function Signup() {
                     </p>
                 </section>
                 <section id='confpwd'>
-                <h4 className='input-label'>
+                <h4 className='sm-label'>
                         Confirm your password
                         <FontAwesomeIcon icon={faCheck} className={validMatch && matchPwd ? "valid" : "hide"} />
                         <FontAwesomeIcon icon={faTimes} className={validMatch || !matchPwd ? "hide" : "invalid"} />
@@ -229,7 +227,7 @@ export default function Signup() {
                     </p>
                 </section>
                 
-                <h5 className='form-label-sec'>Already have an account? <a href='/login'>Login</a></h5>
+                <h5 className='h5-response'>Already have an account? <a href='/login'>Login</a></h5>
                 <button id='submit' className='btn-primary'>Sign up</button>
             </form>
         </div>

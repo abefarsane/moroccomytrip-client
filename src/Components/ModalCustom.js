@@ -28,7 +28,7 @@ export const ModalCustom = ({ children, btnText, btnClass }) => {
   
 
   return (
-    <div>
+    <div id='mod'>
       <button className={btnClass} onClick={handleOpen}>{btnText}</button>
       <Modal
         aria-labelledby="transition-modal-title"

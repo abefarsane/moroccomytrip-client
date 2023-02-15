@@ -19,10 +19,10 @@ export default function Package() {
     const [error, setError] = useState("")
     const [ booked, setBooked ] = useState(false)
 
-    const { authState } = useContext(AuthContext)
+    const { authState, api } = useContext(AuthContext)
 
     const getPackageDetails = () => {
-        axios.get(`http://localhost:3001/packages/byID/${id}`)
+        axios.get(`${api}/packages/byID/${id}`)
             .then((response) => {
                 if (response.data.error) {
                     setPack(null)
@@ -35,7 +35,7 @@ export default function Package() {
 
     const checkIfAlreadyBooked = () => {
 
-        axios.get(`http://localhost:3001/chat/check-if-already-sent/${id}/${authState.id}`)
+        axios.get(`${api}/chat/check-if-already-sent/${id}/${authState.id}`)
             .then((response) => {
                 if (response.data.status) {
                     setBooked(true)
@@ -114,51 +114,41 @@ export default function Package() {
                             <p>{pack.description}</p>
                         </section>
 
-                        <section className='contain'>
-                            <section className='services-included'>
-                                <h2>What is included?</h2>
-                                    <section className='services'>
+                        <section className='service-contain'>
 
-                                    <CustomSliderServices>
+                            <section className='services'>
+                                <h2>What services are included?</h2>
+                                <section className='included'>
                                     {
                                         pack.Services?.length > 0 ? (
                                             pack.Services.map(x => {
-
                                                 return x.included && (
                                                     <Badge>{x.serviceBody}</Badge>
                                                 )
-
                                                 
                                             })
                                         ) : (
                                             <h5>No Services</h5>
                                         )
                                     }
-                                    </CustomSliderServices>
                                 </section>
                             </section>
-
-                            <section className='services-not-included'>
-                                <section className='services'>
-
-                                    <CustomSliderServices>
+                            <section className='services'>
+                                <h2>What services are not included?</h2>
+                                <section className='not-included'>
                                     {
                                         pack.Services?.length > 0 ? (
                                             pack.Services.map(x => {
-
                                                 return !x.included && (
                                                     <Badge>{x.serviceBody}</Badge>
                                                 )
-
                                                 
                                             })
                                         ) : (
                                             <h5>No Services</h5>
                                         )
                                     }
-                                    </CustomSliderServices>
                                 </section>
-                                <h2>What is not included?</h2>
                             </section>
                         </section>
                     </>

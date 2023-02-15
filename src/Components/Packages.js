@@ -1,7 +1,8 @@
 import axios, { all } from 'axios';
-import React, { Component, useEffect, useState } from 'react';
+import React, { Component, useContext, useEffect, useState } from 'react';
 import Badge from 'react-bootstrap/Badge'
 import {useNavigate} from 'react-router-dom'
+import { AuthContext } from '../Tools/Context/AuthContext';
 import SearchBar from '../Tools/sComponents/SearchBar'
 
 export default function Packages() {
@@ -11,10 +12,12 @@ export default function Packages() {
     const [ urls, setUrls] = useState([])
     const [path, setPath] = useState("")
 
-    const defaultImg = "http://localhost:3001/public/on-missing-image.jpg"
+    const { api } = useContext(AuthContext)
+
+    const defaultImg = `${api}/public/on-missing-image.jpg`
 
     const getPackages = () => {
-        axios.get('http://localhost:3001/packages/all')
+        axios.get(`${api}/packages/all`)
             .then((response) => {
                 if(response.data.status) {
                     setAllPackages(response.data.packages)

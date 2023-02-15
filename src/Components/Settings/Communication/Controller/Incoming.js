@@ -13,12 +13,14 @@ export default function Incoming() {
     const [chat, setChat] = useState([])
     const [senderInfo, setSenderInfo] = useState([])
     const navigate = useNavigate()
-    const { authState, setSocket } = useContext(AuthContext)
-    const socket = io.connect('http://localhost:3001')
+    const { authState, setSocket, api } = useContext(AuthContext)
+    const socket = io.connect(api)
+
+    const [toRead, setToRead] = useState(true)
 
 
     const getMessages = () => {
-        axios.get(`http://localhost:3001/chat/byUserId/${authState.id}`)
+        axios.get(`${api}/chat/byUserId/${authState.id}`)
             .then((response) => {
                 if (response.data.error) {
 
@@ -28,45 +30,35 @@ export default function Incoming() {
             })
     }
 
-
-    const handleRead = (id) => {
-
-        console.log(id)
-
-        const body = {
-            hasBeenRead: true
-        }
-
-        axios.put(`http://localhost:3001/messages/update/${id}`, body, {
-            headers: { token: localStorage.getItem('token')}
-        })
+    const updateToRead = (id) => {
+        axios.put(`${api}/chat/updateToRead/${id}`)
             .then((response) => {
                 if (response.data.error) {
                     console.log(response.data.error)
                 } else {
-                    getMessages()
+                    console.log('Updated!')
                 }
             })
-        }
-    
-    useEffect(() => {
-        axios.get(`http://localhost:3001/chat/byUserId/${authState.id}`)
-            .then((response) => {
-                if (response.data.error) {
+    }
 
-                } else {
-                    setChat(response.data)
-                }
-            })
+    const test = (x) => {
+
+        if (x.toRead) {
+            if (x.Messages[x.Messages.length - 1].UserId == authState.id) {
+                return false
+            } else {
+                return true
+            }
+        } else {
+            return false
+        }
+    }
+
+    useEffect(() => {
+        getMessages()
     }, [])
 
 
-    const getUsername = (id) => {
-        axios.get(`http://localhost:3001/users/userById/${id}`)
-        .then((response) => {
-            console.log(response.data)
-        })
-    }
 
     //x.textBody.split('_')[0].slice(0, 30).concat('...')
 
@@ -78,7 +70,7 @@ export default function Incoming() {
                 chat.length > 0 ? (
                     
                     chat.map(  (x, key) => {
-                        
+
 
                         return (
                             <section className='single-message'>
@@ -86,6 +78,7 @@ export default function Incoming() {
                                 navigate(`/chat/${x.id}`)
                                 socket.emit('join_chat', x.id)
                                 setSocket(socket)
+                                updateToRead(x.id)
                             }}>
                                 {
                                     authState.admin ? (
@@ -96,10 +89,17 @@ export default function Incoming() {
                                 }
 
                                     </section>
+
                                     <ModalCustom btnText={<FontAwesomeIcon icon={faEllipsis} />} btnClass="options-chat">
                                     <h1 id='modal-title'>Delete chat</h1>
                                         <DeleteChat chatId={x.id}/>
                                     </ModalCustom>
+
+                                    {
+                                        test(x) && (
+                                            <span className='notification animate__animated animate__flash'></span>
+                                        )
+                                    }
                             </section>
                         )
                     })

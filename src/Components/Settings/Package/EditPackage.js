@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import ModalCustom from '../../ModalCustom';
@@ -8,6 +8,7 @@ import Autocomplete from "react-google-autocomplete";
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import Container from 'react-bootstrap/esm/Container';
+import { AuthContext } from '../../../Tools/Context/AuthContext'
 
 
 export default function EditPackage() {
@@ -21,6 +22,8 @@ export default function EditPackage() {
             notIncluded: []
         }
     })
+
+    const { api } = useContext(AuthContext)
 
     const [packId, setPackId] = useState()
 
@@ -48,7 +51,7 @@ export default function EditPackage() {
 
 
     const getPackageImage = (id) => {
-        axios.get(`http://localhost:3001/packages/package-image/${id}`)
+        axios.get(`${api}/packages/package-image/${id}`)
             .then((response) => {
                 setImageUrl(response.data)
             })
@@ -69,10 +72,10 @@ export default function EditPackage() {
     function handleDeleteService(id) {
         console.log('pup')
 
-        axios.delete(`http://localhost:3001/services/${id}`)
+        axios.delete(`${api}/services/${id}`)
             .then((response) => {
                 if(response.data.status) {
-                    axios.get(`http://localhost:3001/services/pack-services/${packId}`)
+                    axios.get(`${api}/services/pack-services/${packId}`)
                         .then((response) => {
                             const services = response.data.services
                             let included = setServices(services, true)
@@ -204,7 +207,7 @@ export default function EditPackage() {
     }, [])
 
     const updatePage = () => {
-        axios.get('http://localhost:3001/packages/all')
+        axios.get(`${api}/packages/all`)
         .then((response) => {
                 if (response.data.status) {
                     setResponseJSON(response.data.packages)
@@ -264,7 +267,7 @@ export default function EditPackage() {
 
             //handleImgUploadRequest()
 
-            axios.post('http://localhost:3001/packages/new', newPackage, {
+            axios.post(`${api}/packages/new`, newPackage, {
                 headers: { token: localStorage.getItem('token')}
             })
             .then((response) => {
@@ -307,7 +310,7 @@ export default function EditPackage() {
 
               
             setErrMsg('')
-            axios.post(`http://localhost:3001/packages/update/${packId}`, updatedPackage, {
+            axios.post(`${api}/packages/update/${packId}`, updatedPackage, {
                 headers: { token: localStorage.getItem('token')}
             })
             .then((response) => {
@@ -337,12 +340,17 @@ export default function EditPackage() {
                 PackageId: packDetails.package.id,
                 included: type
             }
-            axios.post('http://localhost:3001/services/addToPackage', service)
+            axios.post(`${api}/services/addToPackage`, service, {
+                headers: { token: localStorage.getItem('token')}
+            })
                 .then((response) => {
                     if (response.data.status) {
                         console.log('Added!')
                         setServiceToAdd("")
                         getPackageServices(packDetails.package)
+                    } else {
+                        setErrMsg(response.error)
+                        navigate('/login')
                     }
                 })
         }
@@ -371,7 +379,7 @@ export default function EditPackage() {
         
     }
     const getPackageServices = (pack) => {
-        axios.get(`http://localhost:3001/services/pack-services/${pack.id}`)
+        axios.get(`${api}/services/pack-services/${pack.id}`)
             .then((response) => {
                 const services = response.data.services
                 included = setServices(services, true)
@@ -387,7 +395,7 @@ export default function EditPackage() {
             })
     }
     const handlePackageDelete = () => {
-        axios.delete(`http://localhost:3001/packages/${packId}`)
+        axios.delete(`${api}/packages/${packId}`)
             .then(() => {
                 setShowEdit(false)
                 updatePage()
@@ -398,7 +406,9 @@ export default function EditPackage() {
 
         formData.append('file', image.data)
 
-        await axios.post('http://localhost:3001/packages/upload/package-img', formData)
+        await axios.post(`${api}/packages/upload/package-img`, formData, {
+            headers: { token: localStorage.getItem('token')}
+        })
             .then((response) => {
                 console.log(response.data)
                 //setStatus(response.data.statusText)

@@ -10,7 +10,7 @@ import { Container } from '@mui/system';
 
 export default function EditUser() {
 
-    const { authState, setAuthState, upUsername, updateProfilePicture } = useContext(AuthContext);
+    const { authState, setAuthState, upUsername, updateProfilePicture, api } = useContext(AuthContext);
     const [errMsg, setErrMsg] = useState('')
     const [success, setSuccess] = useState('')
 
@@ -84,13 +84,13 @@ export default function EditUser() {
         }
 
         if(pwd && matchPwd && validMatch && oldPwd) {
-            axios.put("http://localhost:3001/auth/update", user, {
+            axios.put(`${api}/auth/update`, user, {
                 headers: { token: localStorage.getItem('token')}
             })
             .then((response) => {
                 if(response.data.error) {
                     setSuccess('')
-                    setErrMsg(response.data.error)
+                    navigate('/login')
                 } else if(response.data.status.id) {
                     setErrMsg('')
                     setSuccess(response.data.status.text)

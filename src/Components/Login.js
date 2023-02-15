@@ -11,7 +11,7 @@ export default function Login({ redirectInstructions }) {
     const [loginStatus, setLogin] = useState("Not logged");
     
     const navigate = useNavigate();
-    const {setAuthState} = useContext(AuthContext)
+    const {setAuthState, api} = useContext(AuthContext)
 
     const [errMsg, setErrMsg] = useState('')
     const [success, setSuccess] = useState('')
@@ -33,7 +33,7 @@ export default function Login({ redirectInstructions }) {
             email: email,  
             pwd: pwd
         }
-        Axios.post('http://localhost:3001/auth/login', data)
+        Axios.post(`${api}/auth/login`, data)
         .then((response)=> {
             if(response.data.error) {
                 setErrMsg(response.data.error)

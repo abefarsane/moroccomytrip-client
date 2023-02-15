@@ -1,4 +1,3 @@
-import { ReactComponent as IconMenu } from './Media/home-wp.svg'
 import React, { Component, useContext, useEffect, useState } from 'react';
 import { AuthContext } from '../Tools/Context/AuthContext';
 import SearchBar from '../Tools/sComponents/SearchBar';
@@ -24,7 +23,6 @@ export default function Home() {
             </section>
 
             <section className='svg-section'>
-                <IconMenu />
             </section>
             
         </div>
