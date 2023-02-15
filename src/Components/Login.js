@@ -33,7 +33,11 @@ export default function Login({ redirectInstructions }) {
             email: email,  
             pwd: pwd
         }
-        Axios.post(`${api}/auth/login`, data)
+        Axios.post(`${api}/auth/login`, data, {
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        })
         .then((response)=> {
             if(response.data.error) {
                 setErrMsg(response.data.error)
